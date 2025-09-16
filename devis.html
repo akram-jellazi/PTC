@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Devis Gratuit - PTC Plomberie Travaux Confort</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo::before {
+            content: "🔧";
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .devis-container {
+            background: white;
+            border-radius: 25px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            animation: fadeInUp 1s ease;
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+            position: relative;
+        }
+
+        .page-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(45deg, #3498db, #e74c3c);
+            margin: 20px auto;
+            border-radius: 2px;
+        }
+
+        .page-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            margin-bottom: 3rem;
+        }
+
+        .devis-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .devis-left {
+            space-y: 2rem;
+        }
+
+        .devis-right {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+        }
+
+        .service-group {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(52, 152, 219, 0.05);
+            border-radius: 15px;
+            border: 2px solid rgba(52, 152, 219, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .service-group:hover {
+            border-color: rgba(52, 152, 219, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .service-group h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .service-group h3::before {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+
+        .service-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .service-option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .service-option:hover {
+            border-color: #3498db;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .service-option.selected {
+            border-color: #3498db;
+            background: rgba(52, 152, 219, 0.1);
+        }
+
+        .service-option input[type="checkbox"] {
+            margin-right: 15px;
+            transform: scale(1.3);
+            accent-color: #3498db;
+        }
+
+        .service-option label {
+            cursor: pointer;
+            flex-grow: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+        }
+
+        .service-description {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .price-tag {
+            color: #e74c3c;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .devis-summary {
+            background: rgba(255,255,255,0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .summary-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .urgence-options {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: rgba(231, 76, 60, 0.1);
+            border: 2px solid rgba(231, 76, 60, 0.2);
+            border-radius: 15px;
+        }
+
+        .urgence-options h3 {
+            color: #e74c3c;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .urgence-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .urgence-option:hover {
+            background: rgba(231, 76, 60, 0.05);
+        }
+
+        .urgence-option input[type="radio"] {
+            margin-right: 15px;
+            accent-color: #e74c3c;
+            transform: scale(1.2);
+        }
+
+        .urgence-option label {
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .contact-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(46, 204, 113, 0.1);
+            border: 2px solid rgba(46, 204, 113, 0.2);
+            border-radius: 15px;
+        }
+
+        .contact-section h3 {
+            color: #27ae60;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #27ae60;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #27ae60;
+            box-shadow: 0 0 10px rgba(39, 174, 96, 0.3);
+        }
+
+        .btn-devis {
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .btn-devis:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.3);
+        }
+
+        .devis-info {
+            background: rgba(52, 152, 219, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 2px solid rgba(52, 152, 219, 0.2);
+            margin-top: 2rem;
+        }
+
+        .devis-info h3 {
+            color: #3498db;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .devis-info ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .devis-info li {
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .devis-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .service-options {
+                grid-template-columns: 1fr;
+            }
+
+            .devis-right {
+                position: static;
+                margin-top: 2rem;
+            }
+
+            .container {
+                padding: 10px;
+            }
+
+            .devis-container {
+                padding: 1.5rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+        }
+
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            left: 5%;
+            top: 15%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 60px;
+            height: 60px;
+            right: 15%;
+            top: 25%;
+            animation-delay: 3s;
+        }
+
+        .shape:nth-child(3) {
+            width: 80px;
+            height: 80px;
+            left: 75%;
+            top: 65%;
+            animation-delay: 6s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(180deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <header>
+        <nav>
+            <div class="logo">PTC Plomberie</div>
+            <a href="index.html" class="back-btn">← Retour à l'accueil</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="devis-container">
+            <h1 class="page-title">Calculateur de Devis Gratuit</h1>
+            <p class="page-subtitle">Obtenez une estimation précise en quelques clics • Devis personnalisé • Sans engagement</p>
+            
+            <div class="devis-form">
+                <div class="devis-left">
+                    <div class="service-group">
+                        <h3>🔧 Plomberie Générale</h3>
+                        <div class="service-options">
+                            <div class="service-option">
+                                <input type="checkbox" id="fuite" data-price="80" data-category="plomberie">
+                                <label for="fuite">
+                                    <div>
+                                        <strong>Réparation de fuite</strong>
+                                        <div class="service-description">Détection et réparation rapide</div>
+                                    </div>
+                                    <span class="price-tag">80€</span>
+                                </label>
+                            </div>
+                            <div class="service-option">
+                                <input type="checkbox" id="robinet" data-price="120" data-category="plomberie">
+                                <label for="robinet">
+                                    <div>
+                                        <strong>Installation robinet</strong>
+                                        <div class="service-description">Pose avec raccordement</div>
+                                    </div>
+                                    <span class="price-tag">120€</span>
+                                </label>
+                            </div>
+                            <div class="service-option">
+                                <input type="checkbox" id="wc" data-price="200" data-category="plomberie">
+                                <label for="wc">
+                                    <div>
+                                        <strong>Installation WC</strong>
+                                        <div class="service-description">Pose complète avec évacuation</div>
+                                    </div>
+                                    <span class="price-tag">200€</span>
+                                </label>
+                            </div>
+                            <div class="service-option">
+                                <input type="checkbox" id="canalisation" data-price="150" data-category="plomberie">
+                                <label for="canalisation">
+                                    <div>
+                                        <strong>Débouchage canalisation</strong>
+                                        <div class="service-description">Nettoyage haute pression</div>
+                                    </div>
+                                    <span class="price-tag">150€</span>
+                                </label>
+                            </div>
+                            <div class="service-option">
+                                <input type="checkbox" id="evier" data-price="180" data-category="plomberie">
+                                <label for="evier">
+                                    <div>
+                                        <strong>Installation évier</strong>
+                                        <div class="service-description">Pose avec mitigeur</div>
+                                    </div>
+                                    <span class="price-tag">180€</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-group">
+                        <h3>🔥 Chauffage & Climatisation</h3>
+                        <div class="service-options">
+                            <div class="service-option">
+                                <input type="checkbox" id="chaudiere" data-price="3500" data-category="chauffage">
+                                <label for="chaudiere">
+                                    <div>
+                                        <strong>Installation chaudière</strong>
+                                        <div class="service-description">Gaz condensation avec pose</div>
+                                    </div>
+                                    <span class="price-tag">3500€</span>
+                                </label>
+                            </div>
+                            <div class="service-option">
+                                <input type="checkbox" id="radiateur" data-price="300" data-category="chauffage">
+                                <label for="radiateur">
+                                    <div>
+                                        <strong>Installation radiateur</strong>
+                                        <div class="service-description">Radiateur aluminium avec robinetterie</div>
+                                    </div>
+                                    <span class="price-tag">300€</span>
+                                </label>
+                            </div>
+                            <div class="service-option">
+                                <input type="checkbox" id="entretien" data-price="120" data-category="chauffage">
+                                <label for="entretien">
+                                    <div>
+                                        <strong>Entretien chaudière</strong>
+                                        <div class="service-description">Révision annuelle obligatoire</div>
+                                    </div>
+                                    <span class="price-tag">120€</span>
+                                </label>
+                            </div>
+                            <div class="service-option">
+                                <input type="checkbox" id="plancher" data-price="2500" data-category="chauffage">
+                                <label for="plancher">
+                                    <div>
+                                        <strong>Plancher chauffant</strong>
+                                        <div class="service-description">20m² électrique avec régulation</div>
+                                    </div>
+                                    <span class="price-tag">2500€</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-group">
+                        <h3>🚿 Salle de Bain & Sanitaires</h3>
+                        <div class="service-options">
+                            <div class="service-option">
+                                <input type="checkbox" id="douche" data-price="800" data-category="sdb">
+                                <label for="douche">
+                                    <div>
+                                        <strong>Installation douche</strong>
+                                        <div class="service-description">Bac receveur + paroi verre</div>
+                                    </div>
+                                    <span class="price-tag">800€</span>
+                                </label>
+                            </div>
+                            <div class="service-option">
+                                <input type="checkbox" id="baignoire" data-price="1200" data-category="sdb">
+                                <label for="baignoire">
+                                    <div>
+                                        <strong>Installation baignoire</strong>
+                                        <div class="service-description">Baignoire acrylique avec robinetterie</div>
+                                    </div>
+                                    <span class="price-tag">1200€</span>
+                                </label>
+                            </div>
+                            <div class="service-option">
+                                <input type="checkbox" id="renovation" data-price="5000" data-category="sdb">
+                                <label for="renovation">
+                                    <div>
+                                        <strong>Rénovation complète</strong>
+                                        <div class="service-description">6m² carrelage + sanitaires + plomberie</div>
+                                    </div>
+                                    <span class="price-tag">5000€</span>
+                                </label>
+                            </div>
+                            <div class="service-option">
+                                <input type="checkbox" id="lavabo" data-price="250" data-category="sdb">
+                                <label for="lavabo">
+                                    <div>
+                                        <strong>Installation lavabo</strong>
+                                        <div class="service-description">Vasque sur meuble avec mitigeur</div>
+                                    </div>
+                                    <span class="price-tag">250€</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="urgence-options">
+                        <h3>⚡ Délai d'intervention</h3>
+                        <div class="urgence-option">
+                            <input type="radio" id="normal" name="urgence" value="0" checked>
+                            <label for="normal">Intervention normale (sous 1 semaine) - Tarif standard</label>
+                        </div>
+                        <div class="urgence-option">
+                            <input type="radio" id="rapide" name="urgence" value="0.2">
+                            <label for="rapide">Intervention rapide (sous 24h) - Supplément +20%</label>
+                        </div>
+                        <div class="urgence-option">
+                            <input type="radio" id="urgence" name="urgence" value="0.5">
+                            <label for="urgence">Urgence absolue (immédiat) - Supplément +50%</label>
+                        </div>
+                    </div>
+
+                    <div class="contact-section">
+                        <h3>📞 Vos coordonnées pour le devis</h3>
+                        <div class="form-group">
+                            <label for="nom">Nom et Prénom *</label>
+                            <input type="text" id="nom" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="telephone">Téléphone</label>
+                            <input type="tel" id="telephone">
+                        </div>
+                        <div class="form-group">
+                            <label for="adresse">Adresse des travaux</label>
+                            <input type="text" id="adresse" placeholder="Ville et code postal">
+                        </div>
+                        <div class="form-group">
+                            <label for="details">Détails complémentaires</label>
+                            <textarea id="details" rows="3" placeholder="Précisions sur vos travaux..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="devis-info">
+                        <h3>📋 Informations importantes</h3>
+                        <ul>
+                            <li><strong>Prix indicatifs TTC</strong>, main d'œuvre incluse</li>
+                            <li><strong>Devis gratuit</strong> et sans engagement</li>
+                            <li><strong>Garantie 2 ans</strong> sur tous nos travaux</li>
+                            <li><strong>Déplacement gratuit</strong> dans un rayon de 30km</li>
+                            <li><strong>Paiement en 3 fois</strong> possible</li>
+                            <li><strong>Artisan certifié</strong> RGE et assuré</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="devis-right">
+                    <div>
+                        <h3 style="margin-bottom: 2rem; text-align: center;">💰 Récapitulatif du Devis</h3>
+                        
+                        <div class="devis-summary">
+                            <div id="services-list">
+                                <p style="text-align: center; opacity: 0.7; font-style: italic;">
+                                    Sélectionnez vos services ci-contre<br>pour voir le détail apparaître ici
+                                </p>
+                            </div>
+                            
+                            <div class="summary-total">
+                                <span>Sous-total HT :</span>
+                                <span id="total-ht">0€</span>
+                            </div>
+                            <div class="summary-line">
+                                <span>TVA (20%) :</span>
+                                <span id="tva">0€</span>
+                            </div>
+                            <div class="summary-line" id="urgence-line" style="display: none;">
+                                <span>Supplément urgence :</span>
+                                <span id="urgence-cost">0€</span>
+                            </div>
+                            <div class="summary-total" style="font-size: 1.5rem; color: #f39c12; border-top: 3px solid rgba(255,255,255,0.3);">
+                                <span>Total TTC :</span>
+                                <span id="total-ttc">0€</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button class="btn-devis" onclick="envoyerDevis()">
+                            📧 Recevoir ce devis gratuitement
+                        </button>
+                        <p style="text-align: center; margin-top: 1rem; opacity: 0.8; font-size: 0.9rem;">
+                            ✅ Un artisan vous contactera sous 2h<br>
+                            ✅ Devis détaillé par email<br>
+                            ✅ Rendez-vous gratuit à domicile
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedServices = new Map();
+        let totalHT = 0;
+
+        function initDevisCalculator() {
+            const checkboxes = document.querySelectorAll('.service-option input[type="checkbox"]');
+            const urgenceRadios = document.querySelectorAll('input[name="urgence"]');
+
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const serviceOption = this.closest('.service-option');
+                    const price = parseInt(this.dataset.price);
+                    const serviceName = this.nextElementSibling.querySelector('strong').textContent;
+
+                    if (this.checked) {
+                        serviceOption.classList.add('selected');
+                        selectedServices.set(this.id, {
+                            name: serviceName,
+                            price: price
+                        });
+                    } else {
+                        serviceOption.classList.remove('selected');
+                        selectedServices.delete(this.id);
+                    }
+                    updateDevisSummary();
+                });
+            });
+
+            urgenceRadios.forEach(radio => {
+                radio.addEventListener('change', updateDevisSummary);
+            });
+        }
+
+        function updateDevisSummary() {
+            const servicesList = document.getElementById('services-list');
+            const totalHTElement = document.getElementById('total-ht');
+            const tvaElement = document.getElementById('tva');
+            const totalTTCElement = document.getElementById('total-ttc');
+            const urgenceLineElement = document.getElementById('urgence-line');
+            const urgenceCostElement = document.getElementById('urgence-cost');
+
+            // Calculate base total
+            totalHT = 0;
+            let servicesHTML = '';
+
+            if (selectedServices.size === 0) {
+                servicesList.innerHTML = '<p style="text-align: center; opacity: 0.7; font-style: italic;">Sélectionnez vos services ci-contre<br>pour voir le détail apparaître ici</p>';
+            } else {
+                selectedServices.forEach((service, id) => {
+                    totalHT += service.price;
+                    servicesHTML += `
+                        <div class="summary-line">
+                            <span>${service.name}</span>
+                            <span>${service.price}€</span>
+                        </div>
+                    `;
+                });
+                servicesList.innerHTML = servicesHTML;
+            }
+
+            // Calculate urgency supplement
+            const urgenceMultiplier = parseFloat(document.querySelector('input[name="urgence"]:checked').value);
+            const urgenceCost = Math.round(totalHT * urgenceMultiplier);
+            
+            if (urgenceMultiplier > 0 && totalHT > 0) {
+                urgenceLineElement.style.display = 'flex';
+                urgenceCostElement.textContent = `+${urgenceCost}€`;
+            } else {
+                urgenceLineElement.style.display = 'none';
+            }
+
+            // Calculate final totals
+            const subtotal = totalHT + urgenceCost;
+            const tva = Math.round(subtotal * 0.2);
+            const totalTTC = subtotal + tva;
+
+            // Update display
+            totalHTElement.textContent = `${subtotal}€`;
+            tvaElement.textContent = `${tva}€`;
+            totalTTCElement.textContent = `${totalTTC}€`;
+        }
+
+        function envoyerDevis() {
+            if (selectedServices.size === 0) {
+                alert('⚠️ Veuillez sélectionner au moins un service pour générer un devis.');
+                return;
+            }
+
+            const nom = document.getElementById('nom').value;
+            const email = document.getElementById('email').value;
+            
+            if (!nom || !email) {
+                alert('⚠️ Veuillez renseigner au minimum votre nom et email.');
+                return;
+            }
+
+            const urgenceType = document.querySelector('input[name="urgence"]:checked').nextElementSibling.textContent;
+            const totalTTC = document.getElementById('total-ttc').textContent;
+            const telephone = document.getElementById('telephone').value;
+            const adresse = document.getElementById('adresse').value;
+            const details = document.getElementById('details').value;
+            
+            let servicesText = '';
+            selectedServices.forEach((service, id) => {
+                servicesText += `• ${service.name}: ${service.price}€\n`;
+            });
+
+            const devisText = `🔧 DEVIS PTC PLOMBERIE - ${new Date().toLocaleDateString('fr-FR')}
+═══════════════════════════════════════════════════════════
+
+👤 INFORMATIONS CLIENT :
+Nom : ${nom}
+Email : ${email}
+${telephone ? `Téléphone : ${telephone}` : ''}
+${adresse ? `Adresse : ${adresse}` : ''}
+
+🛠️ SERVICES SÉLECTIONNÉS :
+${servicesText}
+📅 Type d'intervention : ${urgenceType}
+
+💰 RÉCAPITULATIF :
+Total TTC : ${totalTTC}
+
+${details ? `📝 DÉTAILS COMPLÉMENTAIRES :\n${details}\n` : ''}
+ℹ️ Ce devis indicatif sera confirmé par un artisan sous 2h.
+Garantie 2 ans • Devis gratuit • RGE certifié`;
+
+            // Simulation d'envoi (dans une vraie application, vous utiliseriez un service backend)
+            alert(`✅ Devis envoyé avec succès !
+
+📧 Un récapitulatif a été envoyé à : ${email}
+📞 Nous vous contacterons sous 2h pour finaliser votre devis personnalisé.
+
+Récapitulatif de votre demande :
+${servicesText}
+Total indicatif : ${totalTTC}
+
+Merci de votre confiance ! 🙏`);
+
+function envoyerDevis() {
+    // ... autre code ...
+    
+    alert(`✅ Devis envoyé avec succès !`);
+    
+    // ✅ CORRECT - à l'intérieur de la fonction
+    setTimeout(() => {
+        if (confirm('Souhaitez-vous retourner à la page d\'accueil ?')) {
+            window.location.href = 'index.html';
+        }
+    }, 2000);
+}}
+
+        // Initialize calculator when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initDevisCalculator();
+            
+            // Animation des éléments au scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observer tous les groupes de services
+            document.querySelectorAll('.service-group, .urgence-options, .contact-section, .devis-info').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.6s ease';
+                observer.observe(el);
+            });
+        });
+
+        // Validation en temps réel des champs
+        document.getElementById('email').addEventListener('input', function() {
+            const email = this.value;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if (email && !emailRegex.test(email)) {
+                this.style.borderColor = '#e74c3c';
+            } else {
+                this.style.borderColor = '#27ae60';
+            }
+        });
+
+        // Formatage automatique du téléphone
+        document.getElementById('telephone').addEventListener('input', function() {
+            let value = this.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.replace(/(\d{2})(?=\d)/g, '$1 ');
+            }
+            this.value = value.slice(0, 14); // Limite à 10 chiffres + espaces
+        });
+    </script>
+</body>
+</html>
